@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.10.11 on win32)" generated="2025-06-09T12:31:56.723240" rpa="false" schemaversion="5">
+<suite id="s1" name="Login Test" source="D:\Tutorial\robot-framework\tests\ui_tests\auth\login_test.robot">
+<test id="s1-t1" name="Valid Login" line="9">
+<kw name="Open Browser To Login Page" owner="login_keywords" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:31:57.051206" level="INFO">Opening browser 'Chrome' to base url 'https://std-cm-test.iconrem.com/'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-06-09T12:31:57.051206" elapsed="11.427482"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-06-09T12:32:08.478688" elapsed="0.025636"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:08.517388" level="INFO">Current page contains text 'https://std-cm-test.iconrem.com/'.</msg>
+<arg>${URL}</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="PASS" start="2025-06-09T12:32:08.504324" elapsed="0.013064"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:31:57.051206" elapsed="11.466182"/>
+</kw>
+<kw name="Input Login Credentials" owner="login_keywords">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:08.519427" level="INFO">Typing text 'admin' into text field 'xpath=//*[@id="inputEmail"]'.</msg>
+<arg>${EMAIL_FIELD}</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:08.518927" elapsed="0.063781"/>
+</kw>
+<kw name="Input Password" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:08.582708" level="INFO">Typing password into text field 'xpath=//input[@id='inputPassword']'.</msg>
+<msg time="2025-06-09T12:32:08.605454" level="INFO">Temporally setting log level to: NONE</msg>
+<arg>${PASSWORD_FIELD}</arg>
+<arg>${password}</arg>
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:08.582708" elapsed="0.052740"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:32:08.517388" elapsed="0.118060"/>
+</kw>
+<kw name="Click Login Button" owner="login_keywords">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:08.635921" level="INFO">Clicking element 'xpath=//button[@id='login_id']'.</msg>
+<arg>${LOGIN_BUTTON}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:08.635921" elapsed="0.049110"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:32:08.635921" elapsed="0.049611"/>
+</kw>
+<kw name="Logout From Application" owner="common_keywords">
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-09T12:32:13.698102" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-09T12:32:08.686473" elapsed="5.011629"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:13.698478" level="INFO">Clicking element 'xpath=//li[@class='dropdown dropdown-user des_show']'.</msg>
+<arg>${AVATAR_PROFILE}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:13.698478" elapsed="3.567534"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:17.266564" level="INFO">Clicking element 'xpath=//ul[@class='dropdown-menu dropdown-menu-right']//a[normalize-space()='Logout']'.</msg>
+<arg>${LOGOUT_BUTTON}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:17.266564" elapsed="0.262186"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-06-09T12:32:17.528750" elapsed="0.015275"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:17.555033" level="INFO">Current page contains text 'Login'.</msg>
+<arg>Login</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="PASS" start="2025-06-09T12:32:17.544025" elapsed="0.011510"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-06-09T12:32:17.555535" elapsed="2.226122"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:32:08.686032" elapsed="11.096119"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-06-09T12:32:19.782774" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:31:57.050205" elapsed="22.732569"/>
+</test>
+<test id="s1-t2" name="Invalid Login" line="14">
+<kw name="Open Browser To Login Page" owner="login_keywords" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:19.784858" level="INFO">Opening browser 'Chrome' to base url 'https://std-cm-test.iconrem.com/'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-06-09T12:32:19.784858" elapsed="20.129410"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-06-09T12:32:39.915367" elapsed="0.043576"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:39.977577" level="INFO">Current page contains text 'https://std-cm-test.iconrem.com/'.</msg>
+<arg>${URL}</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="PASS" start="2025-06-09T12:32:39.958943" elapsed="0.018634"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:32:19.783851" elapsed="20.193726"/>
+</kw>
+<kw name="Input Login Credentials" owner="login_keywords">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:39.979597" level="INFO">Typing text 'invalid_user' into text field 'xpath=//*[@id="inputEmail"]'.</msg>
+<arg>${EMAIL_FIELD}</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:39.978593" elapsed="0.086733"/>
+</kw>
+<kw name="Input Password" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:40.065326" level="INFO">Typing password into text field 'xpath=//input[@id='inputPassword']'.</msg>
+<msg time="2025-06-09T12:32:40.091885" level="INFO">Temporally setting log level to: NONE</msg>
+<arg>${PASSWORD_FIELD}</arg>
+<arg>${password}</arg>
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:40.065326" elapsed="0.063322"/>
+</kw>
+<arg>invalid_user</arg>
+<arg>invalid_password</arg>
+<status status="PASS" start="2025-06-09T12:32:39.978593" elapsed="0.150055"/>
+</kw>
+<kw name="Click Login Button" owner="login_keywords">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:40.129914" level="INFO">Clicking element 'xpath=//button[@id='login_id']'.</msg>
+<arg>${LOGIN_BUTTON}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-06-09T12:32:40.129914" elapsed="0.051886"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:32:40.129780" elapsed="0.052020"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-09T12:32:45.185704" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-09T12:32:40.181800" elapsed="5.003904"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Error.</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-06-09T12:32:45.186379" elapsed="0.701609"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<msg time="2025-06-09T12:32:45.899430" level="INFO">Current page contains text 'Login Error.'.</msg>
+<arg>Login Error.</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="PASS" start="2025-06-09T12:32:45.888415" elapsed="0.011015"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-06-09T12:32:45.900637" elapsed="2.158747"/>
+</kw>
+<status status="PASS" start="2025-06-09T12:32:19.783851" elapsed="28.276370"/>
+</test>
+<doc>Test suite for login functionality</doc>
+<status status="PASS" start="2025-06-09T12:31:56.724240" elapsed="51.337951"/>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Login Test" id="s1" pass="2" fail="0" skip="0">Login Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
