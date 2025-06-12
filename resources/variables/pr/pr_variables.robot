@@ -15,3 +15,10 @@ ${ADDRESS_MODAL_TITLE}    //div[@id='bp_add3']//h5[contains(@class,'modal-title'
 ${ADDRESS_SELECT_BUTTON}    id=select_add1
 ${ADDRESS_MODAL_CLOSE_BUTTON}    id=ok_bp_add
 ${ADDRESS_INPUT}    //input[@id='addrvender']
+
+#requement input
+${today}    Get Current Date    result_format=%Y-%m-%d
+${INPUT_REMARK}    //input[@id='c']
+${INPUT_INVOICE_NUMBER}    //input[@id='invoice_no']
+${INPUT_DUEDATE}    //input[@id='apduedate'] 
+${INPUT_SEND_APPROVAL}    //select[@id='sendapprove']

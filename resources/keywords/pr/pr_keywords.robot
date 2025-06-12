@@ -152,3 +152,10 @@ Select First Address
     # Check select address input
     ${actual_value}=    Get Element Attribute    ${ADDRESS_INPUT}    value
     Should Be Equal As Strings    ${actual_value}    ${address_text}
+Fill In Requirement Input
+    [Arguments]    ${VALUE_REMARK}    ${VALUE_INVOICE_NUMBER}    ${VALUE_DATE}    ${VALUE_APPROVAL_NAME}
+    Input Text    ${INPUT_REMARK}    ${VALUE_REMARK}
+    Input Text    ${INPUT_INVOICE_NUMBER}    ${VALUE_INVOICE_NUMBER}
+    Input Text    ${INPUT_DUEDATE}    ${VALUE_DATE}
+    Select From List By Label    ${INPUT_SEND_APPROVAL}    ${VALUE_APPROVAL_NAME}
+   
