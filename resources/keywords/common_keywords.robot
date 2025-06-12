@@ -146,3 +146,16 @@ Select Menu
             Fail    Menu '${menu_name}' not found in the list
         END
     END
+
+Get Today Date
+    [Documentation]    Returns today's date in the format YYYY-MM-DD
+    [Tags]    utility    date
+    ${today}=    Evaluate    datetime.datetime.now().strftime('%Y-%m-%d')    modules=datetime
+    Log    Today's date: ${today}
+    RETURN    ${today}
+
+Input Date
+    [Arguments]    ${element}    ${date}
+    Execute Javascript    document.evaluate("${element}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.setAttribute('type', 'text');
+    Input Text    ${element}    ${date}
+    Execute Javascript    document.evaluate("${element}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.setAttribute('type', 'date');

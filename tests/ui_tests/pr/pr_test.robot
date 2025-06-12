@@ -22,4 +22,6 @@ Create PR
     # Select the first vendor from the list
     Select Vendor    BP Code    M-V1
     Select First Address
-    Fill In Requirement Input    Test remark for PR    1235    712    test test
+    
+    ${today}=    Get Today Date
+    Fill In Requirement Input    Test remark for PR    1235    ${today}    test test
