@@ -1,3 +1,3 @@
 *** Variables ***
-${URL}    https://std-cm-test.iconrem.com/
+${URL}    https://std-cm.iconcm.com/newrelease/ 
 ${BROWSER}    Chrome
