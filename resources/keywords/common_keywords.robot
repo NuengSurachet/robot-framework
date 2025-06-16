@@ -6,6 +6,9 @@ Resource    ../page_objects/auth/logout_page.robot
 Resource    ../variables/pr/pr_variables.robot
 
 *** Keywords ***
+Disable Automatic Screenshots
+    Register Keyword To Run On Failure    NONE
+
 Login To Application
     [Arguments]    ${username}=${USERNAME}    ${password}=${PASSWORD}
     login_keywords.Open Browser To Login Page

@@ -1,0 +1,456 @@
+{
+  "test_cases": {
+    "case_1": {
+      "description": "คีย์ Amount",
+      "items": [
+        {
+          "no": 1,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 2,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 3,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 4,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 5,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 6,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 7,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 8,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        },
+        {
+          "no": 9,
+          "unit_price": 8411.21,
+          "net_amount": 8999.99
+        }
+      ],
+      "total": {
+        "amount": 75700.89,
+        "cm_vat": 5299.02,
+        "cm_net_amount": 80999.91
+      }
+    },
+    "case_1_1": {
+      "description": "คีย์ Net Amount (back)",
+      "items": [
+        {
+          "no": 1,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 2,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 3,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 4,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 5,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 6,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 7,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 8,
+          "qty": 1,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        },
+        {
+          "no": 9,
+          "unit_price": 8411.21,
+          "net_amount": 9000.00
+        }
+      ],
+      "total": {
+        "amount": 75700.89,
+        "cm_vat": 5299.11,
+        "cm_net_amount": 81000.00
+      }
+    },
+    "case_2": {
+      "description": "Case 2",
+      "items": [
+        {
+          "no": 1,
+          "qty": 13,
+          "unit_price": 3500.00,
+          "net_amount": 48685.00
+        },
+        {
+          "no": 2,
+          "qty": 7,
+          "unit_price": 1417.05,
+          "net_amount": 10613.70
+        },
+        {
+          "no": 3,
+          "qty": 2,
+          "unit_price": 63.00,
+          "net_amount": 134.82
+        },
+        {
+          "no": 4,
+          "qty": 12,
+          "unit_price": 1093.05,
+          "net_amount": 14034.76
+        },
+        {
+          "no": 5,
+          "qty": 7,
+          "unit_price": 727.20,
+          "net_amount": 5446.73
+        },
+        {
+          "no": 6,
+          "qty": 1,
+          "unit_price": 184.95,
+          "net_amount": 197.90
+        },
+        {
+          "no": 7,
+          "qty": 6,
+          "unit_price": 650.00,
+          "net_amount": 4173.00
+        },
+        {
+          "no": 8,
+          "unit_price": 650.00,
+          "net_amount": 695.50
+        },
+        {
+          "no": 9,
+          "qty": 1,
+          "unit_price": 218.25,
+          "net_amount": 233.53
+        },
+        {
+          "no": 10,
+          "qty": 1,
+          "unit_price": 357.30,
+          "net_amount": 382.31
+        },
+        {
+          "no": 11,
+          "qty": 7,
+          "unit_price": 832.50,
+          "net_amount": 6235.43
+        },
+        {
+          "no": 12,
+          "qty": 10,
+          "unit_price": 1240.65,
+          "net_amount": 13274.96
+        },
+        {
+          "no": 13,
+          "qty": 2,
+          "unit_price": 1248.75,
+          "net_amount": 2672.33
+        },
+        {
+          "no": 14,
+          "qty": 108,
+          "unit_price": 147.15,
+          "net_amount": 17004.65
+        },
+        {
+          "no": 15,
+          "qty": 13,
+          "unit_price": 134.55,
+          "net_amount": 1871.59
+        },
+        {
+          "no": 16,
+          "qty": 15,
+          "unit_price": 134.55,
+          "net_amount": 2159.53
+        }
+      ],
+      "total": {
+        "amount": 119453.95,
+        "cm_vat": 8361.79,
+        "cm_net_amount": 127815.74
+      }
+    },
+    "case_3": {
+      "description": "Case 3",
+      "items": [
+        {
+          "no": 1,
+          "qty": 1,
+          "unit_price": 1248.75,
+          "net_amount": 1336.16
+        },
+        {
+          "no": 2,
+          "qty": 8,
+          "unit_price": 167.85,
+          "net_amount": 1436.80
+        },
+        {
+          "no": 3,
+          "qty": 1,
+          "unit_price": 155.25,
+          "net_amount": 166.12
+        },
+        {
+          "no": 4,
+          "qty": 1,
+          "unit_price": 1248.75,
+          "net_amount": 1336.16
+        },
+        {
+          "no": 5,
+          "qty": 8,
+          "unit_price": 167.85,
+          "net_amount": 1436.80
+        },
+        {
+          "no": 6,
+          "qty": 1,
+          "unit_price": 155.25,
+          "net_amount": 166.12
+        },
+        {
+          "no": 7,
+          "qty": 1,
+          "unit_price": 1248.75,
+          "net_amount": 1336.16
+        },
+        {
+          "no": 8,
+          "qty": 8,
+          "unit_price": 167.85,
+          "net_amount": 1436.80
+        },
+        {
+          "no": 9,
+          "qty": 1,
+          "unit_price": 155.25,
+          "net_amount": 166.12
+        },
+        {
+          "no": 10,
+          "qty": 1,
+          "unit_price": 1248.75,
+          "net_amount": 1336.16
+        },
+        {
+          "no": 11,
+          "qty": 8,
+          "unit_price": 167.85,
+          "net_amount": 1436.80
+        },
+        {
+          "no": 12,
+          "qty": 1,
+          "unit_price": 155.25,
+          "net_amount": 166.12
+        },
+        {
+          "no": 13,
+          "qty": 1,
+          "unit_price": 1248.75,
+          "net_amount": 1336.16
+        },
+        {
+          "no": 14,
+          "qty": 4,
+          "unit_price": 167.85,
+          "net_amount": 718.40
+        },
+        {
+          "no": 15,
+          "qty": 1,
+          "unit_price": 155.25,
+          "net_amount": 166.12
+        },
+        {
+          "no": 16,
+          "qty": 1,
+          "unit_price": 1248.75,
+          "net_amount": 1336.16
+        },
+        {
+          "no": 17,
+          "qty": 4,
+          "unit_price": 167.85,
+          "net_amount": 718.40
+        },
+        {
+          "no": 18,
+          "qty": 1,
+          "unit_price": 155.25,
+          "net_amount": 166.12
+        }
+      ],
+      "total": {
+        "amount": 15138.00,
+        "cm_vat": 1059.68,
+        "cm_net_amount": 16197.68
+      }
+    },
+    "case_4": {
+      "description": "Case 4",
+      "items": [
+        {
+          "no": 1,
+          "qty": 3,
+          "unit_price": 495.33,
+          "net_amount": 1590.01
+        },
+        {
+          "no": 2,
+          "qty": 1,
+          "unit_price": 79.02,
+          "net_amount": 84.55
+        },
+        {
+          "no": 3,
+          "qty": 2,
+          "unit_price": 115.42,
+          "net_amount": 247.00
+        },
+        {
+          "no": 4,
+          "qty": 1,
+          "unit_price": 78.13,
+          "net_amount": 83.60
+        },
+        {
+          "no": 5,
+          "qty": 1,
+          "unit_price": 111.87,
+          "net_amount": 119.70
+        },
+        {
+          "no": 6,
+          "qty": 2,
+          "unit_price": 103.88,
+          "net_amount": 222.30
+        },
+        {
+          "no": 7,
+          "qty": 2,
+          "unit_price": 57.71,
+          "net_amount": 123.50
+        },
+        {
+          "no": 8,
+          "qty": 1,
+          "unit_price": 506.07,
+          "net_amount": 541.49
+        },
+        {
+          "no": 9,
+          "qty": 1,
+          "unit_price": 49.72,
+          "net_amount": 53.20
+        },
+        {
+          "no": 10,
+          "qty": 3,
+          "unit_price": 49.72,
+          "net_amount": 159.60
+        },
+        {
+          "no": 11,
+          "qty": 1,
+          "unit_price": 49.72,
+          "net_amount": 53.20
+        },
+        {
+          "no": 12,
+          "qty": 1,
+          "unit_price": 443.04,
+          "net_amount": 474.05
+        },
+        {
+          "no": 13,
+          "qty": 3,
+          "unit_price": 184.67,
+          "net_amount": 592.79
+        },
+        {
+          "no": 14,
+          "qty": 3,
+          "unit_price": 97.66,
+          "net_amount": 313.49
+        },
+        {
+          "no": 15,
+          "qty": 1,
+          "unit_price": 843.46,
+          "net_amount": 902.50
+        },
+        {
+          "no": 16,
+          "qty": 1,
+          "unit_price": 139.25,
+          "net_amount": 149.00
+        }
+      ],
+      "total": {
+        "amount": 5336.44,
+        "cm_vat": 373.54,
+        "cm_net_amount": 5709.98
+      }
+    }
+  }
+}
