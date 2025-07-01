@@ -53,14 +53,15 @@
         },
         {
           "no": 9,
+          "qty": 1,
           "unit_price": 8411.21,
           "net_amount": 8999.99
         }
       ],
       "total": {
         "amount": 75700.89,
-        "cm_vat": 5299.02,
-        "cm_net_amount": 80999.91
+        "vat": 5299.06,
+        "net_amount": 80999.95
       }
     },
     "case_1_1": {
@@ -119,8 +120,8 @@
       ],
       "total": {
         "amount": 75700.89,
-        "cm_vat": 5299.11,
-        "cm_net_amount": 81000.00
+        "vat": 5299.11,
+        "net_amount": 81000.00
       }
     },
     "case_2": {
@@ -224,8 +225,8 @@
       ],
       "total": {
         "amount": 119453.95,
-        "cm_vat": 8361.79,
-        "cm_net_amount": 127815.74
+        "vat": 8361.79,
+        "net_amount": 127815.74
       }
     },
     "case_3": {
@@ -342,8 +343,8 @@
       ],
       "total": {
         "amount": 15138.00,
-        "cm_vat": 1059.68,
-        "cm_net_amount": 16197.68
+        "vat": 1059.68,
+        "net_amount": 16197.68
       }
     },
     "case_4": {
@@ -448,8 +449,8 @@
       ],
       "total": {
         "amount": 5336.44,
-        "cm_vat": 373.54,
-        "cm_net_amount": 5709.98
+        "vat": 373.54,
+        "net_amount": 5709.98
       }
     }
   }

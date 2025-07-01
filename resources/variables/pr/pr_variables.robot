@@ -21,6 +21,7 @@ ${INPUT_REMARK}    //input[@id='c']
 ${INPUT_INVOICE_NUMBER}    //input[@id='invoice_no']
 ${INPUT_DUEDATE}    //input[@id='apduedate'] 
 ${INPUT_SEND_APPROVAL}    //select[@id='sendapprove']
+${INPUT_DIMENSION}    //select[@id='dimension']
 
 # create cost price
 ${ADD_ROW_BUTTON}    //a[@id='sss']
@@ -29,16 +30,16 @@ ${ADD_ROW_BUTTON}    //a[@id='sss']
 ${PROJECT_MODAL}    id=openproj
 ${PROJECT_MODAL_CONTENT}    //div[@id='openproj']//div[@class='modal-content']
 ${PROJECT_MODAL_TITLE}    //div[@id='openproj']//h4[@class='modal-title' and text()='Select Project']
-${PROJECT_TABLE}    //table[@id='DataTables_Table_2']
-${PROJECT_NEXT_PAGE}    //a[@id='DataTables_Table_2_next' and not(contains(@class,'disabled'))]
+${PROJECT_TABLE}    //div[@id='openproj']//table[contains(@id, 'DataTables_Table_')]
+${PROJECT_NEXT_PAGE}    //div[@id='openproj']//a[contains(@id, '_next') and not(contains(@class,'disabled'))]
 ${PROJECT_MODAL_CLOSE_BUTTON}    //div[@id='openproj']//button[@id='close']
 
 # material selection modal
 ${MATERIAL_MODAL}    id=opnewmat
 ${MATERIAL_MODAL_CONTENT}    //div[@id='opnewmat']//div[@class='modal-content']
 ${MATERIAL_MODAL_TITLE}    //div[@id='opnewmat']//h4[@class='modal-title']
-${MATERIAL_TABLE}    //table[@id='DataTables_Table_4']
-${MATERIAL_NEXT_PAGE}    //a[@id='DataTables_Table_4_next' and not(contains(@class,'disabled'))]
+${MATERIAL_TABLE}    //div[@id='opnewmat']//table[contains(@class, 'datatable-basic')]
+${MATERIAL_NEXT_PAGE}    //div[@id='opnewmat']//a[contains(@id, '_next') and not(contains(@class,'disabled'))]
 ${MATERIAL_MODAL_CLOSE_BUTTON}    //div[@id='opnewmat']//button[@class='close' and @data-dismiss='modal']
 
 # budget selection table

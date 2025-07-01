@@ -16,7 +16,7 @@ Login To Application
     login_keywords.Click Login Button
 
 Logout From Application
-    Sleep    5s
+    Sleep    60s
     Click Element    ${AVATAR_PROFILE}
     Click Element    ${LOGOUT_BUTTON}
     Wait Until Page Contains    Login

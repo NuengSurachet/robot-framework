@@ -2,9 +2,86 @@
 Library    SeleniumLibrary
 Library    String
 Library    Collections
+Library    OperatingSystem
 Resource    ../../variables/pr/pr_variables.robot
 Resource    ../../keywords/common_keywords.robot
+
 *** Keywords ***
+
+Load Json Data
+    [Documentation]    Loads JSON data from a file
+    [Arguments]    ${json_file_path}
+    
+    ${json_content}=    Get File    ${json_file_path}
+    ${json_data}=    Evaluate    json.loads('''${json_content}''')    json
+    
+    RETURN    ${json_data}
+
+Process PR Items From Json Case
+    [Documentation]    Processes PR items from a JSON test case
+    [Arguments]    ${json_file_path}    ${case_name}
+    
+    # Load JSON data
+    ${json_data}=    Load Json Data    ${json_file_path}
+    
+    # Check if the case exists in the JSON data
+    ${case_exists}=    Run Keyword And Return Status    Should Contain    ${json_data}[test_cases]    ${case_name}
+    
+    IF    ${case_exists}
+        ${case_data}=    Set Variable    ${json_data}[test_cases][${case_name}]
+        ${items}=    Set Variable    ${case_data}[items]
+        
+        Log    Processing items from JSON case: ${case_name}
+        Log    Description: ${case_data}[description]
+        
+        # Loop through each item
+        FOR    ${item}    IN    @{items}
+            Sleep    2
+            Log    Processing item: ${item}
+            Process Single PR Item From Json    ${item}
+        END
+    ELSE
+        Fail    Test case '${case_name}' not found in JSON data.
+    END
+
+Process Single PR Item From Json
+    [Documentation]    Processes a single PR item from JSON data
+    [Arguments]    ${item}
+    
+    # Extract item details
+    ${no}=    Set Variable    ${item}[no]
+    ${qty}=    Set Variable    ${item}[qty]
+    ${unit_price}=    Set Variable    ${item}[unit_price]
+    ${net_amount}=    Set Variable    ${item}[net_amount]
+    
+    Log    Processing item #${no}: Qty=${qty}, Unit Price=${unit_price}, Net Amount=${net_amount}
+    
+    # Process the item - with enhanced error handling
+    Wait Until Page Contains Element    id=sss    timeout=10s
+    
+    # Use JavaScript to click the button to avoid element interception issues
+    Execute JavaScript    document.getElementById('sss').click();
+    Sleep    2s
+    
+    # Wait for and verify the project modal is displayed with longer timeout
+    Wait Until Element Is Visible    ${PROJECT_MODAL}    timeout=15s
+    Wait Until Element Is Visible    ${PROJECT_MODAL_CONTENT}    timeout=10s
+    
+    # Make sure the project table is visible with longer timeout
+    Wait Until Element Is Visible    ${PROJECT_TABLE}    timeout=15s
+    
+    # Select the project with code MQ001
+    Select Project    Project Code    MQ001
+    
+    # If the modal is still visible for some reason, close it
+    ${modal_still_visible}=    Run Keyword And Return Status    Element Should Be Visible    ${PROJECT_MODAL}
+    Run Keyword If    ${modal_still_visible}    Close Project Selection Modal
+    
+    # Continue with the rest of the process
+    Select Material Name    Item Code    A0010004
+    Select Budget    Budget Code    G202405290    2
+    Select Budget Group    A0201 - A0201001
+    Fill In Add Item    ${unit_price}    7    ${net_amount}
 Check Vendor Selection Modal Is Displayed
     [Documentation]    Checks if the vendor selection modal is displayed
     Wait Until Element Is Visible    ${VENDOR_MODAL}    timeout=10s
@@ -160,6 +237,29 @@ Fill In Requirement Input
     Input Text    ${INPUT_REMARK}    ${VALUE_REMARK}
     Input Text    ${INPUT_INVOICE_NUMBER}    ${VALUE_INVOICE_NUMBER}
     Input Date    ${INPUT_DUEDATE}    ${VALUE_DATE}
+    
+    # Select the 3rd option from the dimension dropdown
+    Wait Until Element Is Visible    ${INPUT_DIMENSION}    timeout=5s
+    ${options}=    Get WebElements    ${INPUT_DIMENSION}/option
+    
+    # Log the number of options found for debugging
+    ${option_count}=    Get Length    ${options}
+    Log    Found ${option_count} options in the dimension dropdown
+    
+    # Get the 3rd option (index 2 since we're 0-indexed)
+    ${target_index}=    Set Variable    2
+    
+    # Make sure we have enough options
+    IF    ${option_count} > ${target_index}
+        # Get the value and text of the 3rd option
+        ${option_value}=    Get Element Attribute    ${options}[${target_index}]    value
+        ${option_text}=    Get Text    ${options}[${target_index}]
+        
+        # Select the option
+        Select From List By Value    ${INPUT_DIMENSION}    ${option_value}
+        Log    Selected dimension option: ${option_text} (${option_value})
+    END
+    
     Select From List By Label    ${INPUT_SEND_APPROVAL}    ${VALUE_APPROVAL_NAME}
 
 Check Project Selection Modal Is Displayed
@@ -208,8 +308,8 @@ Select Project
         # Wait for the table to be visible
         Wait Until Element Is Visible    ${PROJECT_TABLE}    timeout=10s
         
-        # Get all rows in the current page
-        @{rows}=    Get WebElements    xpath://table[@id='DataTables_Table_2']/tbody/tr
+        # Get all rows in the current page - using the dynamic PROJECT_TABLE variable
+        @{rows}=    Get WebElements    ${PROJECT_TABLE}/tbody/tr
         ${row_count}=    Get Length    ${rows}
         
         # Log row count for debugging
@@ -220,8 +320,8 @@ Select Project
         
         # Loop through each row to find the project
         FOR    ${row_index}    IN RANGE    1    ${row_count}+1
-            # Get the cell text in the specified column
-            ${cell_xpath}=    Set Variable    xpath://table[@id='DataTables_Table_2']/tbody/tr[${row_index}]/td[${column_index}]
+            # Get the cell text in the specified column - using the dynamic PROJECT_TABLE variable
+            ${cell_xpath}=    Set Variable    ${PROJECT_TABLE}/tbody/tr[${row_index}]/td[${column_index}]
             Wait Until Element Is Visible    ${cell_xpath}    timeout=5s
             ${cell_text}=    Get Text    ${cell_xpath}
             
@@ -235,8 +335,8 @@ Select Project
             
             IF    ${is_match}
                 Log    Found project with ${column_name} = ${column_value} at row ${row_index}
-                # Get the SELECT button in this row
-                ${select_button_xpath}=    Set Variable    xpath://table[@id='DataTables_Table_2']/tbody/tr[${row_index}]//button[contains(@class,'btn-primary') and text()='SELECT']
+                # Get the SELECT button in this row - using the dynamic PROJECT_TABLE variable
+                ${select_button_xpath}=    Set Variable    ${PROJECT_TABLE}/tbody/tr[${row_index}]//button[contains(@class,'btn-primary') and text()='SELECT']
                 Wait Until Element Is Visible    ${select_button_xpath}    timeout=5s
                 
                 # Click the SELECT button
@@ -270,12 +370,14 @@ Select Project
 
 Create Cost Price
     # Use JavaScript to click the button to avoid element interception issues
+    Wait Until Page Contains Element    id=sss    timeout=10s
     Execute JavaScript    document.getElementById('sss').click();
     Sleep    2s
     
-    # Wait for and verify the project modal is displayed
-    Wait Until Element Is Visible    ${PROJECT_MODAL}    timeout=10s
-    Wait Until Element Is Visible    ${PROJECT_MODAL_CONTENT}    timeout=5s
+    # Wait for and verify the project modal is displayed with longer timeout
+    Wait Until Element Is Visible    ${PROJECT_MODAL}    timeout=15s
+    Wait Until Element Is Visible    ${PROJECT_MODAL_CONTENT}    timeout=10s
+    Wait Until Element Is Visible    ${PROJECT_TABLE}    timeout=15s
     
     # Select the project with code MQ001
     Select Project    Project Code    MQ001
@@ -301,17 +403,17 @@ Select Material
     
     # Wait for the material modal and table to be visible
     Wait Until Element Is Visible    ${MATERIAL_MODAL}    timeout=10s
-    Wait Until Element Is Visible    ${MATERIAL_TABLE}    timeout=10s
+    Wait Until Element Is Visible    ${MATERIAL_TABLE}    timeout=15s
     
     # Get all rows in the current page
-    @{rows}=    Get WebElements    xpath://table[@id='DataTables_Table_4']/tbody/tr
+    @{rows}=    Get WebElements    ${MATERIAL_TABLE}/tbody/tr
     ${row_count}=    Get Length    ${rows}
     
     # Log row count for debugging
     Log    Found ${row_count} rows in the material table
     
     # Find the column index based on the column name
-    @{headers}=    Get WebElements    xpath://table[@id='DataTables_Table_4']/thead/tr/th
+    @{headers}=    Get WebElements    ${MATERIAL_TABLE}/thead/tr/th
     ${column_index}=    Set Variable    ${0}
     ${found_column}=    Set Variable    ${FALSE}
     
@@ -351,7 +453,7 @@ Select Material
         # Loop through each row to find the material
         FOR    ${row_index}    IN RANGE    1    ${row_count}+1
             # Get the cell text in the specified column
-            ${cell_xpath}=    Set Variable    xpath://table[@id='DataTables_Table_4']/tbody/tr[${row_index}]/td[${column_index}]
+            ${cell_xpath}=    Set Variable    ${MATERIAL_TABLE}/tbody/tr[${row_index}]/td[${column_index}]
             Wait Until Element Is Visible    ${cell_xpath}    timeout=5s
             ${cell_text}=    Get Text    ${cell_xpath}
             
@@ -365,7 +467,7 @@ Select Material
             IF    ${is_match}
                 Log    Found material with ${column_name} = ${column_value} at row ${row_index}
                 # Get the SELECT button in this row
-                ${select_button_xpath}=    Set Variable    xpath://table[@id='DataTables_Table_4']/tbody/tr[${row_index}]//button[contains(@class,'btn-primary') and text()='SELECT']
+                ${select_button_xpath}=    Set Variable    ${MATERIAL_TABLE}/tbody/tr[${row_index}]//button[contains(@id,'select_item') and contains(@class,'btn-primary')]
                 Wait Until Element Is Visible    ${select_button_xpath}    timeout=5s
                 
                 # Click the SELECT button
@@ -391,7 +493,7 @@ Select Material
             Sleep    1s
             
             # Get the rows in the new page
-            @{rows}=    Get WebElements    xpath://table[@id='DataTables_Table_4']/tbody/tr
+            @{rows}=    Get WebElements    ${MATERIAL_TABLE}/tbody/tr
             ${row_count}=    Get Length    ${rows}
         ELSE
             Exit For Loop
@@ -405,7 +507,7 @@ Select Material
 
 Select Budget
     [Documentation]    Selects a budget from the budget table by searching for a value in a specific column
-    [Arguments]    ${column_name}    ${column_value}
+    [Arguments]    ${column_name}    ${column_value}    ${row_number}
     
     # Wait for the budget table to be visible
     Wait Until Element Is Visible    ${BUDGET_TABLE}    timeout=10s
@@ -418,20 +520,33 @@ Select Budget
     # Log all headers for debugging
     Log    Found ${headers.__len__()} headers in the budget table
     
-    FOR    ${header}    IN    @{headers}
-        ${column_index}=    Evaluate    ${column_index} + 1
-        ${header_text}=    Get Text    ${header}
-        
-        # Log header info for debugging
-        Log    Header ${column_index}: Text='${header_text}'
-        
-        # Try to match with text
-        ${is_match}=    Run Keyword And Return Status    Should Contain    ${header_text}    ${column_name}
-        
-        IF    ${is_match}
-            Set Test Variable    ${found_column}    ${TRUE}
-            Log    Found column '${column_name}' at index ${column_index} (text='${header_text}')
-            Exit For Loop
+    # Check if we already have a cached column index for this column name
+    ${cached_index}=    Get Variable Value    ${BUDGET_COLUMN_${column_name}}    ${None}
+    
+    # If we have a cached index, use it directly
+    IF    $cached_index is not None
+        ${column_index}=    Set Variable    ${cached_index}
+        ${found_column}=    Set Variable    ${TRUE}
+        Log    Using cached column index ${column_index} for column '${column_name}'
+    ELSE
+        # Otherwise, search for the column
+        FOR    ${header}    IN    @{headers}
+            ${column_index}=    Evaluate    ${column_index} + 1
+            ${header_text}=    Get Text    ${header}
+            
+            # Log header info for debugging
+            Log    Header ${column_index}: Text='${header_text}'
+            
+            # Try to match with text
+            ${is_match}=    Run Keyword And Return Status    Should Contain    ${header_text}    ${column_name}
+            
+            # If found, cache the index and set found flag
+            IF    ${is_match}
+                Set Test Variable    ${BUDGET_COLUMN_${column_name}}    ${column_index}
+                Set Test Variable    ${found_column}    ${TRUE}
+                Log    Found column '${column_name}' at index ${column_index} (text='${header_text}')
+                Exit For Loop
+            END
         END
     END
     
@@ -453,6 +568,7 @@ Select Budget
         # Loop through each row to find the budget
         FOR    ${row_index}    IN RANGE    1    ${row_count}+1
             # Get the cell text in the specified column
+            Sleep    3s
             ${cell_xpath}=    Set Variable    xpath://table[@id='myTable']/tbody/tr[${row_index}]/td[${column_index}]
             ${cell_xpath_alt}=    Set Variable    xpath://table[@id='myTable']/tbody/tr[${row_index}]/th[${column_index}]
             
@@ -473,18 +589,76 @@ Select Budget
                 Set Test Variable    ${found_budget}    ${TRUE}
                 
                 # Get the row ID to find the folder icon
-                ${row_id}=    Get Element Attribute    xpath://table[@id='myTable']/tbody/tr[${row_index}]    id
-                ${row_number}=    Set Variable    ${row_id.replace('a', '')}
+                # ${row_id}=    Get Element Attribute    xpath://table[@id='myTable']/tbody/tr[${row_index}]    id
+                # ${row_number}=    Set Variable    ${row_id.replace('a', '')}
                 
-                # Check if the folder icon exists and is clickable
-                ${folder_icon_xpath}=    Set Variable    xpath://div[@id='file_bg${row_number}']//i[contains(@class,'glyphicon-folder-open')]
-                ${folder_exists}=    Run Keyword And Return Status    Element Should Be Visible    ${folder_icon_xpath}    timeout=2s
+                # Check if the folder icon exists and is clickable using multiple locator strategies based on exact HTML structure
+                # <div id="file_bg2"><a class="insertopen2"><i class="glyphicon glyphicon-folder-open"></i></a></div>
+                ${folder_icon_xpath1}=    Set Variable    xpath://div[@id='file_bg${row_number}']/a[contains(@class,'insertopen2')]/i[contains(@class,'glyphicon-folder-open')]
+                ${folder_icon_xpath2}=    Set Variable    xpath://div[@id='file_bg${row_number}']/a[contains(@class,'insertopen2')]
+                ${folder_icon_xpath3}=    Set Variable    xpath://div[@id='file_bg${row_number}']
+                ${folder_icon_xpath4}=    Set Variable    xpath://div[contains(@id,'file_bg${row_number}')]//i[contains(@class,'glyphicon-folder-open')]
+                
+                # Try multiple locator strategies
+                ${folder_exists1}=    Run Keyword And Return Status    Element Should Be Visible    ${folder_icon_xpath1}    timeout=1s
+                ${folder_exists2}=    Run Keyword And Return Status    Element Should Be Visible    ${folder_icon_xpath2}    timeout=1s
+                ${folder_exists3}=    Run Keyword And Return Status    Element Should Be Visible    ${folder_icon_xpath3}    timeout=1s
+                ${folder_exists4}=    Run Keyword And Return Status    Element Should Be Visible    ${folder_icon_xpath4}    timeout=1s
+                
+                # Log which locators are found for debugging
+                Log    Folder icon locator 1 (exact match): ${folder_exists1}
+                Log    Folder icon locator 2 (a tag): ${folder_exists2}
+                Log    Folder icon locator 3 (div only): ${folder_exists3}
+                Log    Folder icon locator 4 (generic): ${folder_exists4}
+                
+                # Determine which locator to use
+                ${folder_xpath}=    Set Variable If
+                ...    ${folder_exists1}    ${folder_icon_xpath1}
+                ...    ${folder_exists2}    ${folder_icon_xpath2}
+                ...    ${folder_exists4}    ${folder_icon_xpath4}
+                ...    ${folder_exists3}    ${folder_icon_xpath3}
+                ...    ${EMPTY}
+                
+                ${folder_exists}=    Evaluate    ${folder_exists1} or ${folder_exists2} or ${folder_exists3} or ${folder_exists4}
                 
                 IF    ${folder_exists}
-                    # Click the folder icon
-                    Sleep    2
-                    Click Element    ${folder_icon_xpath}
-                    Log    Clicked folder icon for budget in row ${row_index}
+                    # Click the folder icon with robust retry mechanism
+                    Sleep    5s
+                    
+                    # Try multiple click strategies with retry
+                    FOR    ${attempt}    IN RANGE    1    4
+                        # Re-check visibility to avoid stale element
+                        ${still_visible}=    Run Keyword And Return Status    Wait Until Element Is Visible    ${folder_xpath}    timeout=5s
+                        
+                        IF    ${still_visible}
+                            # Try regular click first
+                            ${click_success}=    Run Keyword And Return Status    Click Element    ${folder_xpath}
+                            
+                            # If regular click fails, try JavaScript click
+                            IF    not ${click_success}
+                                TRY
+                                    ${element}=    Get WebElement    ${folder_xpath}
+                                    Execute JavaScript    arguments[0].click();    ARGUMENTS    ${element}
+                                    ${click_success}=    Set Variable    ${TRUE}
+                                EXCEPT
+                                    Log    JavaScript click failed on attempt ${attempt}
+                                END
+                            END
+                            
+                            # If any click succeeded, exit the loop
+                            IF    ${click_success}
+                                Log    Successfully clicked folder icon for budget in row ${row_index} on attempt ${attempt}
+                                Exit For Loop
+                            END
+                        END
+                        
+                        # If we're still in the loop, wait and try again
+                        Sleep    2s
+                    END
+                    
+                    # Verify click was successful by checking if budget group modal appears
+                    Wait Until Element Is Visible    xpath://div[@id='costcode']    timeout=10s
+                    Log    Budget group modal appeared after clicking folder icon
                 ELSE
                     # If folder icon doesn't exist, the budget might be over due date or locked
                     ${status_text}=    Get Text    xpath://div[@id='file_bg${row_number}']
@@ -670,3 +844,63 @@ Fill In Add Item
     
     # Wait for the modal to close
     Wait Until Element Is Not Visible    ${INSERT_ROW_MODAL}    timeout=5s
+
+Validate Total Amount
+    [Documentation]    Validates the total amount values displayed in the HTML table against the values in the JSON data
+    [Arguments]    ${json_file_path}    ${case_name}
+    
+    # Load JSON data and get the expected values
+    ${json_data}=    Load Json Data    ${json_file_path}
+    ${case_exists}=    Run Keyword And Return Status    Should Contain    ${json_data}[test_cases]    ${case_name}
+    
+    IF    ${case_exists}
+        ${case_data}=    Set Variable    ${json_data}[test_cases][${case_name}]
+        ${expected_amount}=    Set Variable    ${case_data}[total][amount]
+        ${expected_vat}=    Set Variable    ${case_data}[total][vat]
+        
+        # Check if the JSON uses 'net_amount' or 'cm_net_amount'
+        ${has_net_amount}=    Run Keyword And Return Status    Dictionary Should Contain Key    ${case_data}[total]    net_amount
+        ${expected_net_amount}=    Set Variable If    
+        ...    ${has_net_amount}    ${case_data}[total][net_amount]    
+        ...    ${case_data}[total][cm_net_amount]
+        
+        # Get the actual values from the web page
+        ${actual_amount}=    Get Value    id=summarydi
+        ${actual_vat}=    Get Value    id=summaryvat
+        ${actual_net_amount}=    Get Value    id=summarytot
+        
+        # Remove commas from the values before converting to numbers
+        ${actual_amount_clean}=    Replace String    ${actual_amount}    ,    ${EMPTY}
+        ${actual_vat_clean}=    Replace String    ${actual_vat}    ,    ${EMPTY}
+        ${actual_net_amount_clean}=    Replace String    ${actual_net_amount}    ,    ${EMPTY}
+        
+        # Convert to numbers for comparison
+        ${expected_amount_num}=    Convert To Number    ${expected_amount}
+        ${expected_vat_num}=    Convert To Number    ${expected_vat}
+        ${expected_net_amount_num}=    Convert To Number    ${expected_net_amount}
+        
+        ${actual_amount_num}=    Convert To Number    ${actual_amount_clean}
+        ${actual_vat_num}=    Convert To Number    ${actual_vat_clean}
+        ${actual_net_amount_num}=    Convert To Number    ${actual_net_amount_clean}
+        
+        # Log the values for debugging
+        Log    Expected Amount: ${expected_amount_num}, Actual Amount: ${actual_amount_num}
+        Log    Expected VAT: ${expected_vat_num}, Actual VAT: ${actual_vat_num}
+        Log    Expected Net Amount: ${expected_net_amount_num}, Actual Net Amount: ${actual_net_amount_num}
+        
+        # Validate the values with a small tolerance for floating point differences
+        ${amount_diff}=    Evaluate    abs(${expected_amount_num} - ${actual_amount_num})
+        ${vat_diff}=    Evaluate    abs(${expected_vat_num} - ${actual_vat_num})
+        ${net_amount_diff}=    Evaluate    abs(${expected_net_amount_num} - ${actual_net_amount_num})
+        
+        ${tolerance}=    Set Variable    0.01
+        
+        # Perform the validations
+        Run Keyword If    ${amount_diff} > ${tolerance}    Fail    Amount validation failed. Expected: ${expected_amount_num}, Actual: ${actual_amount_num}, Difference: ${amount_diff}
+        Run Keyword If    ${vat_diff} > ${tolerance}    Fail    VAT validation failed. Expected: ${expected_vat_num}, Actual: ${actual_vat_num}, Difference: ${vat_diff}
+        Run Keyword If    ${net_amount_diff} > ${tolerance}    Fail    Net Amount validation failed. Expected: ${expected_net_amount_num}, Actual: ${actual_net_amount_num}, Difference: ${net_amount_diff}
+        
+        Log    All total amount validations passed successfully!
+    ELSE
+        Fail    Test case '${case_name}' not found in JSON data.
+    END

@@ -3,7 +3,7 @@ Documentation    Test suite for PR functionality
 Resource    ../../../resources/keywords/common_keywords.robot
 Resource    ../../../resources/keywords/pr/pr_keywords.robot
 Test Setup    Login To Application
-Test Teardown    Close All Browsers
+Test Teardown    Logout From Application
 
 *** Test Cases ***
 Create PR
@@ -28,8 +28,11 @@ Create PR
     Fill In Requirement Input    Test remark for PR    1235    ${today}    test test
     
     # Use data-driven approach with test case data
-    Create Cost Price
-    Select Material Name    Item Code    A0010004
-    Select Budget    Budget Code    G202405290
-    Select Budget Group    A0201 - A0201001
-    Fill In Add Item
+    # Create Cost Price
+    # Select Material Name    Item Code    A0010004
+    # Select Budget    Budget Code    G202405290    2
+    # Select Budget Group    A0201 - A0201001
+    # Fill In Add Item
+    # Use JSON data-driven approach
+    Process PR Items From Json Case    ${EXECDIR}/data/test_data/pr_data/pr_data.json    case_1
+    Validate Total Amount    ${EXECDIR}/data/test_data/pr_data/pr_data.json    case_1
