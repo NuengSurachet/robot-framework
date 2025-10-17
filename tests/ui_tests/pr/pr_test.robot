@@ -3,7 +3,7 @@ Documentation    Test suite for PR functionality
 Resource    ../../../resources/keywords/common_keywords.robot
 Resource    ../../../resources/keywords/pr/pr_keywords.robot
 Test Setup    Login To Application
-Test Teardown    Logout From Application
+#Test Teardown    Logout From Application
 
 *** Test Cases ***
 Create PR
